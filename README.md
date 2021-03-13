@@ -1,6 +1,7 @@
-# NW-Hacks-2021 (http://www.yourcompanion.tech/)
-We built a "socially good" social network, which rewards people based on the positive impact they have on the people around them. Positive being defined by:
+The goal is to create a new solution to logging in. Uses:
 
-1) Sentiment Anaylisis of there messages using NLP
-2) Feedback from others (stars during conversations)
-3) Analyitics on the types of conversations and people interacted with
+  - Your Voice
+  - The content of your words
+  - Your Face
+
+In order to do some digital authentication! Would maybe help with passwords getting hacked and most definetly would help with remebering your passwords
