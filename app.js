@@ -72,6 +72,7 @@ async function adduser(x) {
 		Age: 17,
 		Emoji: "lol",
 		STT_Password: "My name is jeff hahaha funny",
-		Image_Comparison: "Some link to google"
+		Image_Comparison: "Some link to google",
+		Voice_Copy: "Some link to google host"
 	});
 }
