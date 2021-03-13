@@ -5,8 +5,10 @@ var fs = require("fs");
 var atob = require("atob");
 var Sent = require("sentiment");
 var admin = require("firebase-admin");
-const fetch = require("node-fetch");
-
+var pos = require('pos');
+var natural = require('natural');
+var synonyms = require("synonyms");
+var tools = require("./tools")
 // CONSTANTS AND API KEYS
 const PORT = process.env.PORT || 3000;
 const speech = require('@google-cloud/speech');
@@ -63,8 +65,16 @@ async function quickstart() {
 }
 quickstart();
 
-adduser(1);
-async function adduser(x) {
+
+// FUNCTIONS
+
+
+// add_User ( ??? ???? ?????? ) Creates a user in the data database
+//  Which stores the references for comparions for later, note that
+//  the name of the parent is probs arbitrary... idk yet
+add_User(1);
+async function add_User(x) {
+	console.log("NOW ADDING USER: ");
   console.log(x);
 
 	admin.database().ref(x).set({
@@ -76,3 +86,15 @@ async function adduser(x) {
 		Voice_Copy: "Some link to google host"
 	});
 }
+
+// Compare_To_User (FirebaseUser, Image, Text) Given a firebase
+//   reference will return the relative confidence score of that
+//   user being the actual user.
+async function Compare_To_User(FirebaseUser, Image, Text) {
+
+	console.log("NOW COMPARING USER: ");
+	console.log(FirebaseUser);
+
+}
+
+tools.Text_Closeness("that day I saw some really scary guy named greg");
