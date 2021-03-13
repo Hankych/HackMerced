@@ -2,6 +2,9 @@ var pos = require('pos');
 var natural = require('natural');
 var synonyms = require("synonyms");
 
+const WEIGHT_OF_PRIMARY = 3;
+const WEIGHT_OF_SECONDARY = 1;
+
 module.exports = {
 
   // Compare_To_User (FirebaseUser, Image, Text) Given a firebase
@@ -10,48 +13,55 @@ module.exports = {
 
   Text_Closeness: async function (Text) {
 
-    console.log("AAA");
     if (Text){
       var words = new pos.Lexer().lex(Text);
       var tagger = new pos.Tagger();
       var taggedWords = tagger.tag(words);
 
-      var Testing_Nouns = [];
+      var Testing= [];
 
       for (i in taggedWords) {
           var tag = taggedWords[i][1];
 
-          var sample_word = taggedWords[i][0];
+          var sample_word = taggedWords[i][0].toLowerCase();
 
-          if (tag == "NN" || tag == "NNP" ||
-              tag == "NNPS" || tag == "NNS"){
+          if (tag.substring(0,2) == "NN" ||
+              tag.substring(0,2) == "VB" ||
+              tag.substring(0,2) == "JJ"){
 
             var localtest = true;
-            for (var i = 0; i < Testing_Nouns.length; i++){
-              if (Testing_Nouns[i].primary = sample_word){
+            for (var i = 0; i < Testing.length; i++){
+              if (Testing[i].primary == sample_word){
                 localtest = false;
+                Testing[i].mentions += 1;
+                break;
               }
             }
 
             if(localtest){
-              
+
               var synoms = synonyms(sample_word);
-              if (!synoms || !synoms.n){
-                synoms= {n: [""]};
-              }
+
+              var wordlist = [];
+
+              if (synoms&& synoms.n ){wordlist = wordlist.concat(synoms.n);}
+              if (synoms && synoms.v){wordlist = wordlist.concat(synoms.v);}
+              if (synoms && synoms.s){wordlist = wordlist.concat(synoms.s);}
+              if (synoms && synoms.r){wordlist = wordlist.concat(synoms.r);}
 
               var word = {
                 primary: sample_word,
-                secondary: synoms.n
+                secondary: wordlist,
+                mentions: 1
               }
 
-              Testing_Nouns.push(word);
+              Testing.push(word);
             }
 
           }
       }
 
-      console.log(Testing_Nouns);
+      console.log(Testing);
     }
   },
   bar: async function () {

@@ -97,4 +97,4 @@ async function Compare_To_User(FirebaseUser, Image, Text) {
 
 }
 
-tools.Text_Closeness("Gas Gas Gas");
+tools.Text_Closeness("The quick man ran really fast quick");
