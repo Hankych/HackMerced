@@ -26,16 +26,28 @@ module.exports = {
           if (tag == "NN" || tag == "NNP" ||
               tag == "NNPS" || tag == "NNS"){
 
-            var synoms = synonyms(sample_word);
-            if (!synoms || !synoms.n){
-              synoms= {n: [""]};
+            var localtest = true;
+            for (var i = 0; i < Testing_Nouns.length; i++){
+              if (Testing_Nouns[i].primary = sample_word){
+                localtest = false;
+              }
             }
 
-            var word = {
-              primary: sample_word,
-              secondary: synoms.n
+            if(localtest){
+              
+              var synoms = synonyms(sample_word);
+              if (!synoms || !synoms.n){
+                synoms= {n: [""]};
+              }
+
+              var word = {
+                primary: sample_word,
+                secondary: synoms.n
+              }
+
+              Testing_Nouns.push(word);
             }
-            Testing_Nouns.push(word);
+
           }
       }
 
@@ -43,6 +55,6 @@ module.exports = {
     }
   },
   bar: async function () {
-    // whatever
+    return 2;
   }
 };

@@ -97,4 +97,4 @@ async function Compare_To_User(FirebaseUser, Image, Text) {
 
 }
 
-tools.Text_Closeness("that day I saw some really scary guy named greg");
+tools.Text_Closeness("Gas Gas Gas");
