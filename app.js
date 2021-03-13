@@ -100,4 +100,6 @@ async function Compare_To_User(FirebaseUser, Image, Text) {
 console.log(tools.Text_Closeness("Jeff is a good singer sometimes",
                      "Jeff is an ok dancer, but a great singer"));
 
-tools.Face_Compare("hi");
+tools.Face_Compare("5efa68ad-1882-4f0e-8614-755a84a59fe9.jpg",function(answer) {
+	console.log(answer);
+});

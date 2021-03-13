@@ -153,12 +153,15 @@ module.exports = {
 
     },
 
-    Face_Compare: async function (x) {
+    Face_Compare: async function (x, callback) {
 
       ClearCache(function(result1) {
         console.log("Cleared Local Ref");
         Update_Collection(function(result) {
           console.log("Populated Local Ref");
+          Compare_Face(x,function(result2) {
+            callback(result2);
+          });
         });
       });
 
@@ -207,6 +210,29 @@ module.exports = {
             }
           });
         }
+      }
+    });
+  }
+
+  async function Compare_Face (face, callback){
+    var params = {
+      CollectionId: collectionName,
+      Image: {
+        S3Object: {
+          Bucket: "facecompare12",
+          Name: face
+        }
+      },
+      FaceMatchThreshold: 0,
+      MaxFaces: 1,
+    };
+    rek.searchFacesByImage(params, function(err, data) {
+      if (err){
+        console.log(err, err.stack);
+      }
+
+      else{
+          callback(data.FaceMatches)
       }
     });
   }
