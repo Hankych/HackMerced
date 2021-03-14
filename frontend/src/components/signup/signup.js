@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import "./signup.css"
 import FadeIn from 'react-fade-in';
+import WebcamCapture from '../WebcamCapture'
+import AudioRecord from '../AudioRecord'
+import xtype from 'xtypejs'
 import $ from 'jquery'
 import axios from 'axios';
 
@@ -232,8 +235,6 @@ function InputField(props) {
             </div>
         </FadeIn>
     </div>
-
-
 }
 
 function Start(props) {
@@ -262,6 +263,9 @@ class SignUp extends React.Component {
         super(props);
         this.state = {
             username: "",
+            page: 0,
+            imgData: "",
+            audioData: null,
             name: "h",
             age: "",
             page: 0
@@ -270,6 +274,10 @@ class SignUp extends React.Component {
         this.updateName = this.updateName.bind(this)
         this.updateAge = this.updateAge.bind(this)
         this.changePage = this.changePage.bind(this)
+        this.getImgData = this.getImgData.bind(this)
+        this.logImgData = this.logImgData.bind(this)
+        this.getAudioData = this.getAudioData.bind(this)
+        this.logAudioData = this.logAudioData.bind(this)
         this.goBack = this.goBack.bind(this);
     }
 
@@ -304,6 +312,24 @@ class SignUp extends React.Component {
     }
     updateUsername(e) {
         this.setState({ username: e.target.value })
+    }
+
+    getImgData = (childData) => {
+        this.setState({imgData: childData})
+        console.log(this.state.imgData)
+    }
+
+    logImgData() {
+        console.log(this.state.imgData)
+    }
+
+    getAudioData = (childData) => {
+        this.setState({audioData: childData})
+        console.log(this.state.audioData)
+    }
+
+    logAudioData() {
+        console.log(this.state.audioData)
     }
 
     updateName(e) {
@@ -341,21 +367,29 @@ class SignUp extends React.Component {
             block = <InputField handleKeyPress={this.handleKeyPress}
                 label="Enter your age" onClick={() => this.changePage(5)} onChange={this.updateAge} value={this.state.Age} />
         } else if (this.state.page == 5) {
+            block = <div>
+                <div>
+                    <WebcamCapture parentCallback = {this.getImgData}/>
+                </div>
+                <div>
+                    <AudioRecord parentCallback = {this.getAudioData}/>
+                </div>
+                <button onClick={this.logImgData}>Console log imgData</button>
+                <button onClick={this.logAudioData}>Console log audioData</button>
+            </div>
+        } else if (this.state.page == 6) {
             block = <Result />
         }
         return (
-
             <div className="signup-page">
               <a href="/">
             <img className="logo-nav" src="/images/logotext.png" />
             </a>
             {block}
-            {(this.state.page != 0 && this.state.page != 5) ?
+            {(this.state.page != 0 && this.state.page != 6) ?
               (<div className="back-btn" onClick={this.goBack}>
         </div>) : <div />
         }
-
-                {block}
             </div>
         );
     }
