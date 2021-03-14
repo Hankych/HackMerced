@@ -6,6 +6,8 @@ import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
+    <div className="background">
+      </div>
         <div className="site-page">
     <Nav/>
     </div>
