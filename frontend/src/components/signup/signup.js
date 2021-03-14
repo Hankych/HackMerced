@@ -45,6 +45,20 @@ function Result() {
         </FadeIn>
     </div>
 }
+
+function SecurityQuestion() {
+    return <div className="login-box">
+        <FadeIn>
+            <div>
+            <div className="question">
+                <div className="title">How much wood could a wood chuck chuck if a wood chuck could chuck wood</div>
+            </div>
+            </div>
+        </FadeIn>
+    </div>
+
+}
+
 class SignUp extends React.Component {
     constructor(props) {
         super(props);
@@ -162,16 +176,6 @@ class SignUp extends React.Component {
 
             block = <div className="centered">
 
-
-            <div className="login-box">
-                <FadeIn>
-                    <div className="question">
-                        <div className="title">How much wood could a wood chuck chuck if a wood chuck could chuck wood</div>
-                    </div>
-                </FadeIn>
-            </div>
-
-
                 <div>
                     <WebcamCapture parentCallback = {this.getImgData}/>
                 </div>
@@ -231,6 +235,8 @@ class SignUp extends React.Component {
                         ᐸᐸ
                 </div>) : <div />
                 }
+                {(this.state.page == 5) 
+                    ({SecurityQuestion})}
             </div>
         );
     }
