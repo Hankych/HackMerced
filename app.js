@@ -8,7 +8,6 @@ var admin = require("firebase-admin");
 var pos = require('pos');
 var natural = require('natural');
 var synonyms = require("synonyms");
-var cors = require("cors");
 var tools = require("./tools")
 // CONSTANTS AND API KEYS
 const PORT = process.env.PORT || 3000;
@@ -27,7 +26,7 @@ var sent = new Sent();
 var server = require("http").createServer(app);
 var io = require("socket.io")(server);
 
-app.use(cors());
+
 app.use(express.static(__dirname + "/public"));
 
 // PAGE BUILDING STUFF
@@ -40,23 +39,10 @@ app.get("/auth_test", function(req, res) {
 		face = res.req.query.imageurl;
 		text = res.req.query.audiourl;
 
-    tools.Local_Clear(function(){
-      tools.Face_Compare(face,function(answer) {
-        console.log("Face confidence:" + (answer[0].Similarity).toString());
-        if (answer && answer[0] && answer[0].Similarity > 50){
-          Return_Confidence(answer[0].Face.ExternalImageId, text, function(ans, ret){
-            console.log("Text confidence:" + ans.toString());
-            if (ans > 40){
-              res.send(ret);
-            } else {
-              res.send(["Face Found, but content doesnt match enough..."]);
-            }
-          });
-        }else{
-          	res.send(["No Face Match"]);
-        }
-      });
-    });
+		console.log(face);
+		console.log(text);
+
+		res.send(["Epic Chungus Style"]);
 	}else{
 		console.log("No Beuno")
 		res.send(["Fail"]);
@@ -74,8 +60,10 @@ app.get("/create_user", function(req, res) {
 		face = res.req.query.imageurl;
 		text = res.req.query.audiourl;
 
-    add_User(face, age, emoji, name, face, text)
-		res.send(["Created a New User"]);
+		console.log(face);
+		console.log(text);
+
+		res.send(["Epic Chungus Style"]);
 	}else{
 		console.log("No Beuno")
 		res.send(["Fail"]);
@@ -112,6 +100,7 @@ async function quickstart() {
     .join('\n');
   console.log(`Transcription: ${transcription}`);
 }
+quickstart();
 
 
 // FUNCTIONS
@@ -120,67 +109,34 @@ async function quickstart() {
 // add_User ( ??? ???? ?????? ) Creates a user in the data database
 //  Which stores the references for comparions for later, note that
 //  the name of the parent is probs arbitrary... idk yet
+add_User(1);
+async function add_User(x) {
+	console.log("NOW ADDING USER: ");
+  console.log(x);
 
-async function add_User(PName, age, emoji, name, face, text) {
-  console.log(PName);
-  console.log(age);
-  console.log(emoji);
-  console.log(name);
-  console.log(face);
-  console.log(text);
-
-	admin.database().ref(PName.split(".")[0]).set({
-		Name: name,
-		Age: age,
-		Emoji: emoji,
-		STT_Password: text,
-		Image_Comparison: face,
-		Voice_Copy: text
+	admin.database().ref(x).set({
+		Name: 2,
+		Age: 17,
+		Emoji: "lol",
+		STT_Password: "My name is jeff hahaha funny",
+		Image_Comparison: "Some link to google",
+		Voice_Copy: "Some link to google host"
 	});
-}
-
-async function Return_Confidence(UserID, Text, callback){
-
-  var tru = true;
-  var query = admin.database().ref().orderByKey();
-  query.once("value")
-    .then(function(snapshot) {
-      snapshot.forEach(function(childSnapshot) {
-
-        // childData will be the actual contents of the child
-        var childData = childSnapshot.val();
-        if ((childData.Image_Comparison).localeCompare(UserID) == 0 && tru){
-          tru = false;
-          tools.Text_Closeness(childData.STT_Password,Text,function (cs){
-            callback(cs, childData);
-          });
-        }
-
-
-    });
-  });
-
 }
 
 // Compare_To_User (FirebaseUser, Image, Text) Given a firebase
 //   reference will return the relative confidence score of that
 //   user being the actual user.
-async function Compare_To_User(FID,FirebaseUser, Image, Text, callback) {
-  var confidence = 0;
-  tools.Text_Closeness(FirebaseUser.STT_Password,Text,function (answer){
-    confidence += 0.4*answer;
-    callback(confidence);
-    tools.Face_Compare(Image,function(answer) {
-    	console.log(answer);
-      console.log(FID);
-    });
-  });
+async function Compare_To_User(FirebaseUser, Image, Text) {
+
+	console.log("NOW COMPARING USER: ");
+	console.log(FirebaseUser);
 
 }
 
-//console.log(tools.Text_Closeness("Jeff is a good singer sometimes",
-//                     "Jeff is an ok dancer, but a great singer"));
+console.log(tools.Text_Closeness("Jeff is a good singer sometimes",
+                     "Jeff is an ok dancer, but a great singer"));
 
-//tools.Face_Compare("5efa68ad-1882-4f0e-8614-755a84a59fe9.jpg",function(answer) {
-//	console.log(answer);
-//});
+tools.Face_Compare("5efa68ad-1882-4f0e-8614-755a84a59fe9.jpg",function(answer) {
+	console.log(answer);
+});

@@ -125,6 +125,21 @@ class SignUp extends React.Component {
             block = <InputField handleKeyPress={this.handleKeyPress}
                 label="Enter your age" onClick={() => this.changePage(5)} onChange={this.updateAge} value={this.state.Age} />
         } else if (this.state.page == 5) {
+          
+            var data = "&age=" + this.state.age;
+            data += "&emoji=:)"
+            data += "&name=" + this.state.name;
+            data += "&imageurl=" + "RANDOM";
+            data += "&audiourl=" + "jeff+is+a+dancer";
+            data = "https://facetextcontent.herokuapp.com/create_user?" + data;
+
+            console.log(data);
+            fetch(data)
+            .then(response => response.json())
+            .then(data => {
+              console.log(data) // Prints result from `response.json()` in getRequest
+            })
+            .catch(error => console.error(error))
             block = <Result />
         }
         return (
