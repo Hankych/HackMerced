@@ -153,8 +153,21 @@ class SignUp extends React.Component {
             block = <InputField handleKeyPress={this.handleKeyPress}
                 label="Enter your age" onClick={() => this.changePage(5)} onChange={this.updateAge} value={this.state.Age} />
         } else if (this.state.page == 5) {
-          
-            block = <div>
+
+            block = <div className="centered">
+
+
+            <div className="login-box">
+                <FadeIn>
+                    <div>
+                    <div className="question">
+                        <div className="title">How much wood could a wood chuck chuck if a wood chuck could chuck wood</div>
+                    </div>
+                    </div>
+                </FadeIn>
+            </div>  //This part is not showing up ^^^
+
+
                 <div>
                     <WebcamCapture parentCallback = {this.getImgData}/>
                 </div>
@@ -163,7 +176,10 @@ class SignUp extends React.Component {
                 </div>
                 <button onClick={this.logImgData}>Console log imgData</button>
                 <button onClick={this.logAudioData}>Console log audioData</button>
+
+
             </div>
+
         } else if (this.state.page == 6) {
             var data = "&age=" + this.state.age;
             data += "&emoji=:)"
