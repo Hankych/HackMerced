@@ -69,8 +69,6 @@ class Login extends React.Component {
           <div>
               <AudioRecord parentCallback = {this.getAudioData}/>
           </div>
-          <button onClick={this.logImgData}>Console log imgData</button>
-          <button onClick={this.logAudioData}>Console log audioData</button>
       </div>
         return (
 

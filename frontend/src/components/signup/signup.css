@@ -81,6 +81,11 @@
     width: 40%;
 }
 
+.title {
+    font-size: 3em;
+    font-weight: 300;
+}
+
 /*******EMAIL*******/
 
 .email-box {
