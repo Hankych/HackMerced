@@ -103,6 +103,12 @@ app.post("/in", function(req, res) {
 app.post("/ah", function(req, res) {
   bytes = new Buffer.from(req.body.productImage,'base64');
 
+  var name = req.body.name;
+  var age = req.body.age;
+  var email = req.body.email;
+
+  var title = name +age;
+  
   console.log(title)
   tools.imgupload(title, bytes, function(answer){
     console.log("ok")
