@@ -302,7 +302,7 @@ module.exports = {
       }
 
       else{
-        console.log(data.faceMatches);
+        callback(data);
       }
     });
   }
