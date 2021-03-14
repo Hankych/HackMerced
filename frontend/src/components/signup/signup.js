@@ -7,6 +7,7 @@ import $ from 'jquery'
 import axios from 'axios';
 
 function InputField(props) {
+
     return <div className="email-box">
         <FadeIn>
             <div className="text">{props.label}</div>
@@ -79,7 +80,12 @@ class SignUp extends React.Component {
                 }, 200)
             $('.text').css("transform", "translateY(-25px)")
             return;
-        } else {
+        } else if (number == 5) {
+            this.makeUser();
+            await this.setState({ page: -1 })
+            setTimeout(this.setState({ page: number }), 1000);
+        }
+        else {
 
             await this.setState({ page: -1 })
             setTimeout(this.setState({ page: number }), 1000);
@@ -199,11 +205,14 @@ class SignUp extends React.Component {
 
 
         }
-        return (
 
+
+
+        return (
             <div className="signup-page">
+                                                         
                 <a href="/">
-                    <img className="logo-nav" src="/images/logotext.png" />
+                <img className="logo-nav" src="/images/logotext.png" />
                 </a>
                 {block}
                 {(this.state.page != 0 && this.state.page != 5) ?

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import "./login.css"
 import SignUp from "../signup/signup"
 import FadeIn from 'react-fade-in';
+import Lottie from 'react-lottie';
+import * as animationData from '../animation.json';
 
 import {
     BrowserRouter as Router,
@@ -11,6 +13,7 @@ import {
 } from "react-router-dom";
 
 function LogEmail() {
+
     return <div className="login-box">
         <FadeIn>
             <div>
@@ -47,10 +50,10 @@ class Login extends React.Component {
 
 
     render() {
+
         return (
             
-            <div className="login-page">
-                                
+            <div className="login-page">        
             <a href="/">
             <img className="logo-nav" src="/images/logotext.png" />
             </a>
