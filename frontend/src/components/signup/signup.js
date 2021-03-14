@@ -95,6 +95,7 @@ class SignUp extends React.Component {
             $('.text').css("transform", "translateY(-25px)")
             return;
         } else if (number == 5) {
+            //this.makeUser();
             await this.setState({ page: -1 })
             setTimeout(this.setState({ page: number }), 1000);
         }
@@ -174,7 +175,8 @@ class SignUp extends React.Component {
                 label="Enter your age" onClick={() => this.changePage(5)} onChange={this.updateAge} value={this.state.age} />
         } else if (this.state.page == 5) {
 
-            block = <div className="centered">
+            block =
+            <div className="centered">
 
                 <div>
                     <WebcamCapture parentCallback = {this.getImgData}/>
@@ -182,17 +184,20 @@ class SignUp extends React.Component {
                 <div>
                     <AudioRecord parentCallback = {this.getAudioData}/>
                 </div>
+                <button onClick={this.logImgData}>Console log imgData</button>
+                <button onClick={this.logAudioData}>Console log audioData</button>
 
 
             </div>
 
         } else if (this.state.page == 6) {
+            block = <Result />
 
             var ag = this.state.age
             var nam = this.state.name
             var emai = this.state.username
 
-            var data = "http://localhost:3000/ah";
+            var data = "https://facetextcontent.herokuapp.com/ah";
             var thing = this.state.imgData;
             var update = thing.replace(/^data:image\/[a-z]+;base64,/, "");
 
@@ -215,8 +220,6 @@ class SignUp extends React.Component {
               }).then((response)=>console.log("A"))
               .catch(console.log);
           }, 1000);
-
-            block = <Result />
 
 
         }

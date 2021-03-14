@@ -24,6 +24,7 @@ admin.initializeApp({
 
 // Instancate OBJECTS
 var app = express();
+var ret = [];
 
 var sent = new Sent();
 var server = require("http").createServer(app);
@@ -31,6 +32,7 @@ var io = require("socket.io")(server);
 app.use(bodyParser.json({ limit: "5mb" }))
 app.use(bodyParser.urlencoded({ limit: "5mb", extended: false }))
 app.use(cors());
+
 
 app.use(function (req, res, next) {
 
@@ -57,6 +59,9 @@ app.use(express.static(__dirname + "/public"));
 app.get("/", function(req, res) {
 	res.sendFile(path.join(__dirname + "/index.html"));
 });
+app.get("/data", function(req, res) {
+	res.send(ret);
+});
 
 /*
 tools.Local_Clear(function(){
@@ -70,14 +75,40 @@ tools.Local_Clear(function(){
   })
 })
 */
+app.post("/in", function(req, res) {
+  bytes = getBinary(req.body.productImage,'base64');
+
+  console.log(bytes)
+  tools.Local_Clear(function(){
+    tools.Byte_Compare(bytes, function(answer){
+      console.log(answer.FaceMatches)
+      if (answer.FaceMatches[0].Similarity > 50) {
+        Return_Data(answer.FaceMatches[0].Face.ExternalImageId, function(fi){
+          ret = fi;
+        })
+      } else{
+        ret = {
+          "Age": "Fail",
+          "Email": "Fail",
+          "Image_Comparison": "Fail",
+          "Name": "Fail"
+      }
+      }
+    })
+  });
+
+  res.send(["yep"]);
+});
+
 app.post("/ah", function(req, res) {
   bytes = new Buffer.from(req.body.productImage,'base64');
 
-  var age = req.body.age;
   var name = req.body.name;
+  var age = req.body.age;
   var email = req.body.email;
-  var title = name+age;
 
+  var title = name +age;
+  
   console.log(title)
   tools.imgupload(title, bytes, function(answer){
     console.log("ok")
@@ -187,6 +218,26 @@ async function Return_Confidence(UserID, Text, callback){
     });
   });
 
+}
+
+async function Return_Data(UserID, callback){
+  console.log(UserID);
+  var tru = true;
+  var query = admin.database().ref().orderByKey();
+  query.once("value")
+    .then(function(snapshot) {
+      snapshot.forEach(function(childSnapshot) {
+
+        var key = childSnapshot.key;
+
+        if (key.localeCompare(UserID) == 0 && tru){
+          tru = false;
+          callback(childSnapshot.val());
+        }
+
+
+    });
+  });
 }
 
 // Compare_To_User (FirebaseUser, Image, Text) Given a firebase
