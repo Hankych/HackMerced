@@ -125,7 +125,7 @@ class SignUp extends React.Component {
             block = <InputField handleKeyPress={this.handleKeyPress}
                 label="Enter your age" onClick={() => this.changePage(5)} onChange={this.updateAge} value={this.state.Age} />
         } else if (this.state.page == 5) {
-          
+
             var data = "&age=" + this.state.age;
             data += "&emoji=:)"
             data += "&name=" + this.state.name;
@@ -141,6 +141,8 @@ class SignUp extends React.Component {
             })
             .catch(error => console.error(error))
             block = <Result />
+
+
         }
         return (
 
