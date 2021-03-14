@@ -4,6 +4,8 @@ import SignUp from "../signup/signup"
 import FadeIn from 'react-fade-in';
 import WebcamCapture from '../WebcamCapture'
 import AudioRecord from '../AudioRecord'
+import Lottie from 'react-lottie';
+import * as animationData from '../animation.json';
 
 import {
     BrowserRouter as Router,
@@ -12,7 +14,7 @@ import {
     Link
 } from "react-router-dom";
 
-function Prompt() {
+function SecurityQuestion() {
     return <div className="login-box">
         <FadeIn>
             <div>
@@ -77,7 +79,7 @@ class Login extends React.Component {
             <a href="/">
             <img className="logo-nav" src="/images/logotext.png" />
             </a>
-                <Prompt/>
+                <SecurityQuestion/>
                 <div className="centered">
                   {block}
                 </div>

@@ -7,9 +7,9 @@
 }
 
 .landing-logo {
-    width: 500px;
+    width: 300px;
     height: auto;
-    display: block;
+    display: inline;
 }
 
 .landing-img {
@@ -24,13 +24,17 @@
 
 .landing-text {
     margin: 0 auto;
-    margin-top: 7em;
+    margin-top: 4em;
     margin-bottom: auto;
     color: white;
     font-family: Lato;
     font-size: 1.5em;
     text-align: right;
     padding-right: 5em;
+}
+
+.home-anim {
+    display: inline;
 }
 
 @media only screen and (max-width: 600px) {

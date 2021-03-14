@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import "./landing.css"
 import FadeIn from 'react-fade-in';
+import Lottie from 'react-lottie';
+import * as animationData from '../animation.json';
 
 class Landing extends React.Component {
     constructor(props) {
@@ -9,6 +11,15 @@ class Landing extends React.Component {
 
 
     render() {
+        const defaultOptions = {
+            loop: false,
+            autoplay: true, 
+            animationData:animationData.default,
+            rendererSettings: {
+              preserveAspectRatio: 'xMidYMid slice'
+            }
+          };
+
         return (
             <div>
             <div className="nav-bar">
@@ -20,7 +31,10 @@ class Landing extends React.Component {
             <div className="landing-page">
                     <div className="landing-text">
                     <FadeIn>
-                        <img className="landing-logo" src="/images/logotext.png" />
+                    <Lottie className="home-anim" options={defaultOptions}
+              height={200}
+              width={200}/>
+                        <img className="landing-logo" src="/images/text.png" />
                         The future of cyber security
                         </FadeIn>
                 </div>
