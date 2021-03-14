@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 import "./signup.css"
 import FadeIn from 'react-fade-in';
 import $ from 'jquery'
+import Lottie from 'react-lottie';
+import * as animationData from '../animation.json';
 
 function InputField(props) {
+
     return <div className="email-box">
         <FadeIn>
             <div className="text">{props.label}</div>
@@ -48,13 +51,15 @@ class SignUp extends React.Component {
             username: "",
             name: "h",
             age: "",
-            page: 0
+            page: 0,
+            isPaused: true
         }
         this.updateUsername = this.updateUsername.bind(this)
         this.updateName = this.updateName.bind(this)
         this.updateAge = this.updateAge.bind(this)
         this.changePage = this.changePage.bind(this)
         this.goBack = this.goBack.bind(this);
+        this.makeUser = this.makeUser.bind(this);
     }
 
 
@@ -70,7 +75,12 @@ class SignUp extends React.Component {
                 }, 200)
             $('.text').css("transform", "translateY(-25px)")
             return;
-        } else {
+        } else if (number == 5) {
+            this.makeUser();
+            await this.setState({ page: -1 })
+            setTimeout(this.setState({ page: number }), 1000);
+        }
+        else {
 
             await this.setState({ page: -1 })
             setTimeout(this.setState({ page: number }), 1000);
@@ -104,6 +114,24 @@ class SignUp extends React.Component {
         this.setState({ page: -1 })
         setTimeout(this.setState({ page: 4 }), 500);
     }
+
+    makeUser() {
+        const axios = require('axios');
+        const params = {
+            name: this.state.name,
+            email: this.state.username,
+            age: this.state.age,
+            mode: 'no-cors'
+        }
+
+        axios.get("https://facetextcontent.herokuapp.com/create_user", { params })
+            .then(response => {
+                console.log(response)
+            }).catch(error => {
+                console.log(error);
+
+            })
+    }
     render() {
         let block = 0;
         if (this.state.page == 0) {
@@ -127,11 +155,14 @@ class SignUp extends React.Component {
         } else if (this.state.page == 5) {
             block = <Result />
         }
-        return (
 
+
+
+        return (
             <div className="signup-page">
+                                                         
                 <a href="/">
-                    <img className="logo-nav" src="/images/logotext.png" />
+                <img className="logo-nav" src="/images/logotext.png" />
                 </a>
                 {block}
                 {(this.state.page != 0 && this.state.page != 5) ?
