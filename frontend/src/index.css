@@ -5,9 +5,93 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  
+}
+
+button {
+  outline: none;
+}
+
+input {
+  outline: none;
+}
+
+a:visited{
+  color: var(--highlight-blue)
+}
+:root {
+  --dark-blue: #002089;
+  --light-blue: #0076ff;
+  --highlight-blue: #05F5FF;
+
+}
+.site-page {
+  background: linear-gradient(270deg, #004ed6, var(--dark-blue));
+  background-size: 400% 400%;
+  width: 100%;
+  height:100vh;
+  -webkit-animation: AnimationName 30s ease infinite;
+  -moz-animation: AnimationName 30s ease infinite;
+  animation: AnimationName 30s ease infinite;
+}
+
+.app-container {
+  width: 100%;
+  height:100%;
+}
+@-webkit-keyframes AnimationName {
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+@-moz-keyframes AnimationName {
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+@keyframes AnimationName {
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.demo-btn {
+  border-radius: 15px;
+  padding: 0.5em 1.3em 0.5em 1.3em;
+  font-size: 1.5em;
+  text-transform: uppercase;
+  background-color: white;
+  border-style:none;
+  color:#006eed;
+  box-shadow: 0px 20px 15px 5px rgba(0,0,0,0.05);
+  font-family: Lato;
+  font-weight: 600;
+  display:block;
+  transition: 0.5s;
+  float: right;
+  margin: 1em;
+
+}
+
+.demo-btn:hover {
+  transform: scale(1.05);
+  transition: 0.5s;
+  box-shadow: 0px 20px 15px 5px rgba(0,0,0,0.03);
+  transform: translateY(-5px);
+}
+
+.logo-bar {
+  float: left;
+}
+
+.logo-nav {
+  width: 150px;
+  height:auto;
+  margin: 1em;
+  z-index: 99;
 }

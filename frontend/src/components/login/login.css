@@ -1,0 +1,86 @@
+.login-page {
+    position: relative;
+    width: 100%;
+    height:100%;
+    font-family: 'Lato', sans-serif;
+    color:white;
+}
+
+.login-box {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    margin: 0;
+    width: 40%;
+}
+
+.login-box .text-box {
+    font-size: 1em;
+    text-align: center;
+    margin-bottom: 15%;
+}
+
+.login-box input {
+    padding: 0.3em;
+    font-size: 1.4em;
+    border: solid;
+    border-width: 1px;
+    border-color: grey;
+    border-radius: 5px;
+    font-family: Lato;
+    margin-top: 2%;
+    margin-right: 2%;
+    width: 80%;
+}
+
+.login-box .title {
+    font-size: 3em;
+    font-weight: 300;
+}
+.email-container {
+    padding: 2em 1.5em 2em 1.5em;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.email-container .label {
+    color: gray;
+}
+
+.email-container .next-btn {
+    border:none;
+    background-color: var(--dark-blue);
+    color:white;
+    border-radius: 10px;
+    width: 10%;
+    font-size: 100%;
+    padding: 0.7em;
+}
+
+.create-btn {
+    color: var(--highlight-blue);
+    background:none;
+    border:none;
+    font-size: 1em;
+}
+.circle {
+    position: relative;
+    width:100px;
+    height: 51px;
+    background-color: white;
+    border-top-left-radius: 100px;
+    border-top-right-radius: 100px;
+    margin: auto;
+    bottom: -1px;
+
+      
+}
+.logo {
+   width: 70px;
+   height: auto;
+   margin: auto;
+   display: block;
+   padding-top:0.5em;
+}

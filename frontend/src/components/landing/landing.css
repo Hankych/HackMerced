@@ -1,0 +1,34 @@
+.landing-page {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.landing-logo {
+    width: 500px;
+    height: auto;
+    display: block;
+}
+
+.landing-img {
+    width: 600px;
+    height: auto;
+    padding-top: 10em;
+
+}
+.image-fade {
+    margin: auto;
+}
+
+.landing-text {
+    margin: 0 auto;
+    margin-top: 7em;
+    margin-bottom: auto;
+    color: white;
+    font-family: Lato;
+    font-size: 1.5em;
+    text-align: right;
+    padding-right: 5em;
+}
