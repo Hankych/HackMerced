@@ -63,7 +63,7 @@ class SignUp extends React.Component {
         if ((number - 1 == 1 && this.state.name == "") ||
             (number - 1 == 3 && this.state.username == "") ||
             (number - 1 == 4 && (this.state.username == "" ||
-                !isNaN(parseFloat(number)) && isFinite(number)))) {
+                isNaN(parseInt(this.state.age))))) {
             setTimeout(
                 () => {
                     $('.text').css("transform", "translateY(0px)")
