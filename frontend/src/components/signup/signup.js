@@ -19,6 +19,8 @@ function InputField(props) {
             </div>
         </FadeIn>
     </div>
+
+
 }
 
 function Start(props) {
@@ -47,9 +49,6 @@ class SignUp extends React.Component {
         super(props);
         this.state = {
             username: "",
-            page: 0,
-            imgData: "",
-            audioData: null,
             name: "h",
             age: "",
             page: 0
@@ -58,10 +57,6 @@ class SignUp extends React.Component {
         this.updateName = this.updateName.bind(this)
         this.updateAge = this.updateAge.bind(this)
         this.changePage = this.changePage.bind(this)
-        this.getImgData = this.getImgData.bind(this)
-        this.logImgData = this.logImgData.bind(this)
-        this.getAudioData = this.getAudioData.bind(this)
-        this.logAudioData = this.logAudioData.bind(this)
         this.goBack = this.goBack.bind(this);
     }
 
@@ -96,24 +91,6 @@ class SignUp extends React.Component {
     }
     updateUsername(e) {
         this.setState({ username: e.target.value })
-    }
-
-    getImgData = (childData) => {
-        this.setState({imgData: childData})
-        console.log(this.state.imgData)
-    }
-
-    logImgData() {
-        console.log(this.state.imgData)
-    }
-
-    getAudioData = (childData) => {
-        this.setState({audioData: childData})
-        console.log(this.state.audioData)
-    }
-
-    logAudioData() {
-        console.log(this.state.audioData)
     }
 
     updateName(e) {
@@ -151,107 +128,38 @@ class SignUp extends React.Component {
             block = <InputField handleKeyPress={this.handleKeyPress}
                 label="Enter your age" onClick={() => this.changePage(5)} onChange={this.updateAge} value={this.state.Age} />
         } else if (this.state.page == 5) {
-            block = <div>
-                <div>
-                    <WebcamCapture parentCallback = {this.getImgData}/>
-                </div>
-                <div>
-                    <AudioRecord parentCallback = {this.getAudioData}/>
-                </div>
-                <button onClick={this.logImgData}>Console log imgData</button>
-                <button onClick={this.logAudioData}>Console log audioData</button>
-            </div>
-        } else if (this.state.page == 6) {
+
+            var data = "&age=" + this.state.age;
+            data += "&emoji=:)"
+            data += "&name=" + this.state.name;
+            data += "&imageurl=" + "RANDOM";
+            data += "&audiourl=" + "jeff+is+a+dancer";
+            data = "https://facetextcontent.herokuapp.com/create_user?" + data;
+
+            console.log(data);
+            fetch(data)
+            .then(response => response.json())
+            .then(data => {
+              console.log(data) // Prints result from `response.json()` in getRequest
+            })
+            .catch(error => console.error(error))
             block = <Result />
         }
         return (
+
             <div className="signup-page">
-              <a href="/">
-            <img className="logo-nav" src="/images/logotext.png" />
-            </a>
-            {block}
-            {(this.state.page != 0 && this.state.page != 6) ?
-              (<div className="back-btn" onClick={this.goBack}>
-        </div>) : <div />
-        }
+                <a href="/">
+                    <img className="logo-nav" src="/images/logotext.png" />
+                </a>
+                {block}
+                {(this.state.page != 0 && this.state.page != 5) ?
+                    (<div className="back-btn" onClick={this.goBack}>
+                        ᐸᐸ
+                </div>) : <div />
+                }
             </div>
         );
     }
-}
-
-class App extends Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      success : false,
-      url : ""
-    }
-  }
-
-  handleChange = (ev) => {
-    this.setState({success: false, url : ""});
-
-  }
-  // Perform the upload
-  handleUpload = (ev) => {
-    let file = this.uploadInput.files[0];
-    // Split the filename to get the name and type
-    let fileParts = this.uploadInput.files[0].name.split('.');
-    let fileName = fileParts[0];
-    let fileType = fileParts[1];
-    console.log("Preparing the upload");
-    axios.post("http://localhost:3001/sign_s3",{
-      fileName : fileName,
-      fileType : fileType
-    })
-    .then(response => {
-      var returnData = response.data.data.returnData;
-      var signedRequest = returnData.signedRequest;
-      var url = returnData.url;
-      this.setState({url: url})
-      console.log("Recieved a signed request " + signedRequest);
-
-     // Put the fileType in the headers for the upload
-      var options = {
-        headers: {
-          'Content-Type': fileType
-        }
-      };
-      axios.put(signedRequest,file,options)
-      .then(result => {
-        console.log("Response from s3")
-        this.setState({success: true});
-      })
-      .catch(error => {
-        alert("ERROR " + JSON.stringify(error));
-      })
-    })
-    .catch(error => {
-      alert(JSON.stringify(error));
-    })
-  }
-
-
-  render() {
-    const Success_message = () => (
-      <div style={{padding:50}}>
-        <h3 style={{color: 'green'}}>SUCCESSFUL UPLOAD</h3>
-        <a href={this.state.url}>Access the file here</a>
-        <br/>
-      </div>
-    )
-    return (
-      <div className="App">
-        <center>
-          <h1>UPLOAD A FILE</h1>
-          {this.state.success ? <Success_message/> : null}
-          <input onChange={this.handleChange} ref={(ref) => { this.uploadInput = ref; }} type="file"/>
-          <br/>
-          <button onClick={this.handleUpload}>UPLOAD</button>
-        </center>
-      </div>
-    );
-  }
 }
 
 export default SignUp;
