@@ -39,10 +39,23 @@ app.get("/auth_test", function(req, res) {
 		face = res.req.query.imageurl;
 		text = res.req.query.audiourl;
 
-		console.log(face);
-		console.log(text);
-
-		res.send(["Epic Chungus Style"]);
+    tools.Local_Clear(function(){
+      tools.Face_Compare(face,function(answer) {
+        console.log("Face confidence:" + (answer[0].Similarity).toString());
+        if (answer && answer[0] && answer[0].Similarity > 50){
+          Return_Confidence(answer[0].Face.ExternalImageId, text, function(ans, ret){
+            console.log("Text confidence:" + ans.toString());
+            if (ans > 40){
+              res.send(ret);
+            } else {
+              res.send(["Face Found, but content doesnt match enough..."]);
+            }
+          });
+        }else{
+          	res.send(["No Face Match"]);
+        }
+      });
+    });
 	}else{
 		console.log("No Beuno")
 		res.send(["Fail"]);
@@ -61,7 +74,7 @@ app.get("/create_user", function(req, res) {
 		text = res.req.query.audiourl;
 
     add_User(face, age, emoji, name, face, text)
-		res.send(["Epic Chungus Style"]);
+		res.send(["Created a New User"]);
 	}else{
 		console.log("No Beuno")
 		res.send(["Fail"]);
@@ -98,7 +111,6 @@ async function quickstart() {
     .join('\n');
   console.log(`Transcription: ${transcription}`);
 }
-quickstart();
 
 
 // FUNCTIONS
@@ -116,7 +128,7 @@ async function add_User(PName, age, emoji, name, face, text) {
   console.log(face);
   console.log(text);
 
-	admin.database().ref(PName).set({
+	admin.database().ref(PName.split(".")[0]).set({
 		Name: name,
 		Age: age,
 		Emoji: emoji,
@@ -126,13 +138,42 @@ async function add_User(PName, age, emoji, name, face, text) {
 	});
 }
 
+async function Return_Confidence(UserID, Text, callback){
+
+  var tru = true;
+  var query = admin.database().ref().orderByKey();
+  query.once("value")
+    .then(function(snapshot) {
+      snapshot.forEach(function(childSnapshot) {
+
+        // childData will be the actual contents of the child
+        var childData = childSnapshot.val();
+        if ((childData.Image_Comparison).localeCompare(UserID) == 0 && tru){
+          tru = false;
+          tools.Text_Closeness(childData.STT_Password,Text,function (cs){
+            callback(cs, childData);
+          });
+        }
+
+
+    });
+  });
+
+}
+
 // Compare_To_User (FirebaseUser, Image, Text) Given a firebase
 //   reference will return the relative confidence score of that
 //   user being the actual user.
-async function Compare_To_User(FirebaseUser, Image, Text) {
-
-	console.log("NOW COMPARING USER: ");
-	console.log(FirebaseUser);
+async function Compare_To_User(FID,FirebaseUser, Image, Text, callback) {
+  var confidence = 0;
+  tools.Text_Closeness(FirebaseUser.STT_Password,Text,function (answer){
+    confidence += 0.4*answer;
+    callback(confidence);
+    tools.Face_Compare(Image,function(answer) {
+    	console.log(answer);
+      console.log(FID);
+    });
+  });
 
 }
 
