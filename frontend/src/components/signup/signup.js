@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import "./signup.css"
 import FadeIn from 'react-fade-in';
+import WebcamCapture from '../WebcamCapture'
+import AudioRecord from '../AudioRecord'
 import $ from 'jquery'
-import Lottie from 'react-lottie';
-import * as animationData from '../animation.json';
+import axios from 'axios';
 
 function InputField(props) {
 
@@ -52,14 +53,18 @@ class SignUp extends React.Component {
             name: "h",
             age: "",
             page: 0,
-            isPaused: true
+            imgData: null,
+            audioData: null
         }
         this.updateUsername = this.updateUsername.bind(this)
         this.updateName = this.updateName.bind(this)
         this.updateAge = this.updateAge.bind(this)
         this.changePage = this.changePage.bind(this)
         this.goBack = this.goBack.bind(this);
-        this.makeUser = this.makeUser.bind(this);
+        this.getImgData = this.getImgData.bind(this)
+        this.logImgData = this.logImgData.bind(this)
+        this.getAudioData = this.getAudioData.bind(this)
+        this.logAudioData = this.logAudioData.bind(this)
     }
 
 
@@ -115,23 +120,24 @@ class SignUp extends React.Component {
         setTimeout(this.setState({ page: 4 }), 500);
     }
 
-    makeUser() {
-        const axios = require('axios');
-        const params = {
-            name: this.state.name,
-            email: this.state.username,
-            age: this.state.age,
-            mode: 'no-cors'
-        }
-
-        axios.get("https://facetextcontent.herokuapp.com/create_user", { params })
-            .then(response => {
-                console.log(response)
-            }).catch(error => {
-                console.log(error);
-
-            })
+    getImgData = (childData) => {
+        this.setState({imgData: childData})
+        console.log(this.state.imgData)
     }
+
+    logImgData() {
+        console.log(this.state.imgData)
+    }
+
+    getAudioData = (childData) => {
+        this.setState({audioData: childData})
+        console.log(this.state.audioData)
+    }
+
+    logAudioData() {
+        console.log(this.state.audioData)
+    }
+
     render() {
         let block = 0;
         if (this.state.page == 0) {
@@ -153,6 +159,32 @@ class SignUp extends React.Component {
             block = <InputField handleKeyPress={this.handleKeyPress}
                 label="Enter your age" onClick={() => this.changePage(5)} onChange={this.updateAge} value={this.state.Age} />
         } else if (this.state.page == 5) {
+          
+            block = <div>
+                <div>
+                    <WebcamCapture parentCallback = {this.getImgData}/>
+                </div>
+                <div>
+                    <AudioRecord parentCallback = {this.getAudioData}/>
+                </div>
+                <button onClick={this.logImgData}>Console log imgData</button>
+                <button onClick={this.logAudioData}>Console log audioData</button>
+            </div>
+        } else if (this.state.page == 6) {
+            var data = "&age=" + this.state.age;
+            data += "&emoji=:)"
+            data += "&name=" + this.state.name;
+            data += "&imageurl=" + "RANDOM";
+            data += "&audiourl=" + "jeff+is+a+dancer";
+            data = "https://facetextcontent.herokuapp.com/create_user?" + data;
+
+            console.log(data);
+            fetch(data)
+            .then(response => response.json())
+            .then(data => {
+              console.log(data) // Prints result from `response.json()` in getRequest
+            })
+            .catch(error => console.error(error))
             block = <Result />
         }
 

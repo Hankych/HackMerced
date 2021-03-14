@@ -8,6 +8,7 @@ var admin = require("firebase-admin");
 var pos = require('pos');
 var natural = require('natural');
 var synonyms = require("synonyms");
+var cors = require("cors");
 var tools = require("./tools")
 // CONSTANTS AND API KEYS
 const PORT = process.env.PORT || 3000;
@@ -26,7 +27,7 @@ var sent = new Sent();
 var server = require("http").createServer(app);
 var io = require("socket.io")(server);
 
-
+app.use(cors());
 app.use(express.static(__dirname + "/public"));
 
 // PAGE BUILDING STUFF
