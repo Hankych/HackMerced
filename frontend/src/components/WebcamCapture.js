@@ -10,9 +10,11 @@ export default class WebcamCapture extends Component{
     }
     screenshot() {
         var screenshot = this.refs.webcam.getScreenshot();
-        console.log(screenshot);
         this.setState({screenshot: screenshot});
+        // for sending data to parent component - signup.js
+        this.props.parentCallback(screenshot);
       }
+      /*
       onClickHandler = () => {
         const data = new FormData()
         data.append('file', this.state.selectedFile)
@@ -22,10 +24,7 @@ export default class WebcamCapture extends Component{
          console.log(res.statusText)
       })
      }
-
-     upload() {
-         
-     }
+     */
 
     render(){
         return (

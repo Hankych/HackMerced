@@ -13,7 +13,9 @@ export default class AudioRecord extends Component {
   }
  
   _onRecordingComplete = (blob) => {
-    console.log('recording', blob)
+    // console.log('recording', blob)
+    // for sending data to parent component - signup.js
+    this.props.parentCallback(blob);
   }
  
   _onRecordingError = (err) => {
