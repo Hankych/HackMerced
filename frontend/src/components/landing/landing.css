@@ -32,3 +32,11 @@
     text-align: right;
     padding-right: 5em;
 }
+
+@media only screen and (max-width: 600px) {
+    .landing-img {
+        width: 70%;
+        display: block;
+        margin: auto;
+    }
+  }
