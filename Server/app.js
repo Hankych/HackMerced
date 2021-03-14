@@ -50,19 +50,17 @@ app.get("/auth_test", function(req, res) {
 
 });
 
-app.get("/Create_User", function(req, res) {
+app.get("/create_user", function(req, res) {
 
 	if (res){
-		
+
 		age = res.req.query.age;
 		emoji = res.req.query.emoji;
-		name = res.req.query.emoji;
+		name = res.req.query.name;
 		face = res.req.query.imageurl;
 		text = res.req.query.audiourl;
 
-		console.log(face);
-		console.log(text);
-
+    add_User(face, age, emoji, name, face, text)
 		res.send(["Epic Chungus Style"]);
 	}else{
 		console.log("No Beuno")
@@ -109,18 +107,22 @@ quickstart();
 // add_User ( ??? ???? ?????? ) Creates a user in the data database
 //  Which stores the references for comparions for later, note that
 //  the name of the parent is probs arbitrary... idk yet
-add_User(1);
-async function add_User(x) {
-	console.log("NOW ADDING USER: ");
-  console.log(x);
 
-	admin.database().ref(x).set({
-		Name: 2,
-		Age: 17,
-		Emoji: "lol",
-		STT_Password: "My name is jeff hahaha funny",
-		Image_Comparison: "Some link to google",
-		Voice_Copy: "Some link to google host"
+async function add_User(PName, age, emoji, name, face, text) {
+  console.log(PName);
+  console.log(age);
+  console.log(emoji);
+  console.log(name);
+  console.log(face);
+  console.log(text);
+
+	admin.database().ref(PName).set({
+		Name: name,
+		Age: age,
+		Emoji: emoji,
+		STT_Password: text,
+		Image_Comparison: face,
+		Voice_Copy: text
 	});
 }
 
@@ -134,9 +136,9 @@ async function Compare_To_User(FirebaseUser, Image, Text) {
 
 }
 
-console.log(tools.Text_Closeness("Jeff is a good singer sometimes",
-                     "Jeff is an ok dancer, but a great singer"));
+//console.log(tools.Text_Closeness("Jeff is a good singer sometimes",
+//                     "Jeff is an ok dancer, but a great singer"));
 
-tools.Face_Compare("5efa68ad-1882-4f0e-8614-755a84a59fe9.jpg",function(answer) {
-	console.log(answer);
-});
+//tools.Face_Compare("5efa68ad-1882-4f0e-8614-755a84a59fe9.jpg",function(answer) {
+//	console.log(answer);
+//});
