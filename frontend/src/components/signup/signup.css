@@ -68,6 +68,7 @@
 
 .email-box .text {
     color:white;
+    transition:0.5s;
 }
 
 .email-box .input-box {
