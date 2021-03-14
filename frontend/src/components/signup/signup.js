@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import "./signup.css"
 import FadeIn from 'react-fade-in';
 import $ from 'jquery'
+import WebcamCapture from '../WebcamCapture'
+import AudioRecord from '../AudioRecord'
 
 function InputField(props) {
     return <div className="email-box">
@@ -48,13 +50,19 @@ class SignUp extends React.Component {
             username: "",
             name: "h",
             age: "",
-            page: 0
+            page: 0,
+            imgData: null,
+            audioData: null
         }
         this.updateUsername = this.updateUsername.bind(this)
         this.updateName = this.updateName.bind(this)
         this.updateAge = this.updateAge.bind(this)
         this.changePage = this.changePage.bind(this)
         this.goBack = this.goBack.bind(this);
+        this.getImgData = this.getImgData.bind(this)
+        this.logImgData = this.logImgData.bind(this)
+        this.getAudioData = this.getAudioData.bind(this)
+        this.logAudioData = this.logAudioData.bind(this)
     }
 
 
@@ -104,6 +112,25 @@ class SignUp extends React.Component {
         this.setState({ page: -1 })
         setTimeout(this.setState({ page: 4 }), 500);
     }
+
+    getImgData = (childData) => {
+        this.setState({imgData: childData})
+        console.log(this.state.imgData)
+    }
+
+    logImgData() {
+        console.log(this.state.imgData)
+    }
+
+    getAudioData = (childData) => {
+        this.setState({audioData: childData})
+        console.log(this.state.audioData)
+    }
+
+    logAudioData() {
+        console.log(this.state.audioData)
+    }
+
     render() {
         let block = 0;
         if (this.state.page == 0) {
@@ -126,6 +153,17 @@ class SignUp extends React.Component {
                 label="Enter your age" onClick={() => this.changePage(5)} onChange={this.updateAge} value={this.state.Age} />
         } else if (this.state.page == 5) {
           
+            block = <div>
+                <div>
+                    <WebcamCapture parentCallback = {this.getImgData}/>
+                </div>
+                <div>
+                    <AudioRecord parentCallback = {this.getAudioData}/>
+                </div>
+                <button onClick={this.logImgData}>Console log imgData</button>
+                <button onClick={this.logAudioData}>Console log audioData</button>
+            </div>
+        } else if (this.state.page == 6) {
             var data = "&age=" + this.state.age;
             data += "&emoji=:)"
             data += "&name=" + this.state.name;
