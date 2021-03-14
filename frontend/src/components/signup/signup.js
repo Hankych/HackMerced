@@ -7,7 +7,8 @@ function InputField(props) {
         <FadeIn>
             <div className="text">{props.label}</div>
             <div>
-                <input className="input-box" value={props.value} onChange={props.onChange} />
+                <input 
+                className="input-box" value={props.value} onChange={props.onChange} />
                 <button className="next-btn" onClick={props.onClick}>
                     ᐳ
         </button>
@@ -32,8 +33,11 @@ function Start(props) {
 }
 
 function Result() {
-    return <div>
-        <a href="/login"> goto login</a>
+    return  <div className="result-box">
+        <FadeIn>
+            <div className="start-title endtitle"> Thank you for signing up!</div>
+        <a className="end-link" href="/login"> Go to Login</a>
+        </FadeIn>
     </div>
 }
 class SignUp extends React.Component {
@@ -49,6 +53,7 @@ class SignUp extends React.Component {
         this.updateName = this.updateName.bind(this)
         this.updateAge = this.updateAge.bind(this)
         this.changePage = this.changePage.bind(this)
+        this.goBack = this.goBack.bind(this);
     }
 
 
@@ -57,6 +62,15 @@ class SignUp extends React.Component {
         setTimeout(this.setState({page: number}), 1000);
     }
 
+    async goBack() {
+        let page = this.state.page
+        await this.setState({page: -1})
+        if (page == 3){
+            this.setState(prevState => ({page: page - 2}))
+        }else {
+        this.setState(prevState => ({page: page - 1}))
+        }
+    }
     updateUsername(e) {
         this.setState({ username: e.target.value })
     }
@@ -80,16 +94,21 @@ class SignUp extends React.Component {
         if (this.state.page == 0) {
             block = <Start onClick={() => this.changePage(1)} />
         } else if (this.state.page == 1) {
-            block = <InputField label="Let’s start off with your name" onClick={() => this.changePage(2)} onChange={this.updateName} value={this.state.name} />
+            block = <InputField handleKeyPress={this.handleKeyPress}
+            label="Let’s start off with your name" onClick={() => this.changePage(2)} onChange={this.updateName} value={this.state.name} />
         } else if (this.state.page == 2) {
-            block = <div>
+            block = <FadeIn className="welcome-box">
+            <div className="start-title">
                 Welcome {this.state.name}!
-            <button onClick={() => this.changePage(3)}>continue</button>
+            <button className="cont-btn" onClick={() => this.changePage(3)}>ᐳ</button>
             </div>
+            </FadeIn>
         } else if (this.state.page == 3) {
-            block = <InputField label="Enter your email" onClick={() => this.changePage(4)} onChange={this.updateUsername} value={this.state.username} />
+            block = <InputField handleKeyPress={this.handleKeyPress}
+            label="Enter your email" onClick={() => this.changePage(4)} onChange={this.updateUsername} value={this.state.username} />
         } else if (this.state.page==4){
-            block = <InputField label="Enter your age" onClick={() => this.changePage(5)} onChange={this.updateAge} value={this.state.Age} />
+            block = <InputField handleKeyPress={this.handleKeyPress}
+            label="Enter your age" onClick={() => this.changePage(5)} onChange={this.updateAge} value={this.state.Age} />
         } else if (this.state.page==5) {
             block = <Result/>
         }
@@ -100,6 +119,11 @@ class SignUp extends React.Component {
                         <img className="logo-nav" src="/images/logotext.png" />
                     </a>
                     {block}
+                    {(this.state.page != 0 && this.state.page != 5) ? 
+                    (<div className="back-btn" onClick={this.goBack}>
+                ᐸᐸ
+                </div>) : <div/>
+                    }
                 </div>
             );
     }
