@@ -33,6 +33,43 @@ app.use(express.static(__dirname + "/public"));
 app.get("/", function(req, res) {
 	res.sendFile(path.join(__dirname + "/index.html"));
 });
+app.get("/auth_test", function(req, res) {
+
+	if (res){
+		face = res.req.query.imageurl;
+		text = res.req.query.audiourl;
+
+		console.log(face);
+		console.log(text);
+
+		res.send(["Epic Chungus Style"]);
+	}else{
+		console.log("No Beuno")
+		res.send(["Fail"]);
+	}
+
+});
+
+app.get("/Create_User", function(req, res) {
+
+	if (res){
+		
+		age = res.req.query.age;
+		emoji = res.req.query.emoji;
+		name = res.req.query.emoji;
+		face = res.req.query.imageurl;
+		text = res.req.query.audiourl;
+
+		console.log(face);
+		console.log(text);
+
+		res.send(["Epic Chungus Style"]);
+	}else{
+		console.log("No Beuno")
+		res.send(["Fail"]);
+	}
+
+});
 
 
 server.listen(PORT);
