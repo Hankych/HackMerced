@@ -14,7 +14,7 @@ export default class WebcamCapture extends Component{
 
         //this.setState({screenshot: screenshot});
         // for sending data to parent component - signup.js
-        //this.props.parentCallback(screenshot);
+        this.props.parentCallback(screenshot);
 
         //The above calls print the function^^
       }
@@ -35,10 +35,10 @@ export default class WebcamCapture extends Component{
             <div>
             <Webcam
                audio={false}
-               height={720}
+               height={520}
                ref={'webcam'}
                screenshotFormat="image/jpeg"
-               width={1280}
+               width={720}
                screenshotQuality = {1}
              />
              <button onClick={this.screenshot.bind(this)}>Capture</button>

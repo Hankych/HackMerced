@@ -7,7 +7,6 @@ import $ from 'jquery'
 import axios from 'axios';
 
 function InputField(props) {
-
     return <div className="email-box">
         <FadeIn>
             <div className="text">{props.label}</div>
@@ -80,12 +79,7 @@ class SignUp extends React.Component {
                 }, 200)
             $('.text').css("transform", "translateY(-25px)")
             return;
-        } else if (number == 5) {
-            //this.makeUser();
-            await this.setState({ page: -1 })
-            setTimeout(this.setState({ page: number }), 1000);
-        }
-        else {
+        } else {
 
             await this.setState({ page: -1 })
             setTimeout(this.setState({ page: number }), 1000);
@@ -126,8 +120,7 @@ class SignUp extends React.Component {
     }
 
     logImgData() {
-      this.changePage(6);
-      console.log(this.state.imgData)
+        console.log(this.state.imgData)
     }
 
     getAudioData = (childData) => {
@@ -158,24 +151,10 @@ class SignUp extends React.Component {
                 label="Enter your email" onClick={() => this.changePage(4)} onChange={this.updateUsername} value={this.state.username} />
         } else if (this.state.page == 4) {
             block = <InputField handleKeyPress={this.handleKeyPress}
-                label="Enter your age" onClick={() => this.changePage(5)} onChange={this.updateAge} value={this.state.age} />
+                label="Enter your age" onClick={() => this.changePage(5)} onChange={this.updateAge} value={this.state.Age} />
         } else if (this.state.page == 5) {
-
-            block =
-            <div className="centered">
-
-
-            <div className="login-box">
-                <FadeIn>
-                    <div>
-                    <div className="question">
-                        <div className="title">How much wood could a wood chuck chuck if a wood chuck could chuck wood</div>
-                    </div>
-                    </div>
-                </FadeIn>
-            </div>  //This part is not showing up ^^^
-
-
+         
+            block = <div>
                 <div>
                     <WebcamCapture parentCallback = {this.getImgData}/>
                 </div>
@@ -184,52 +163,31 @@ class SignUp extends React.Component {
                 </div>
                 <button onClick={this.logImgData}>Console log imgData</button>
                 <button onClick={this.logAudioData}>Console log audioData</button>
-
-
             </div>
-
         } else if (this.state.page == 6) {
+            var data = "&age=" + this.state.age;
+            data += "&emoji=:)"
+            data += "&name=" + this.state.name;
+            data += "&imageurl=" + "RANDOM";
+            data += "&audiourl=" + "jeff+is+a+dancer";
+            data = "https://facetextcontent.herokuapp.com/create_user?" + data;
 
-            var ag = this.state.age
-            var nam = this.state.name
-            var emai = this.state.username
-
-            var data = "http://localhost:3000/ah";
-            var thing = this.state.imgData;
-            var update = thing.replace(/^data:image\/[a-z]+;base64,/, "");
-
-            console.log(emai);
-            console.log(nam);
-            console.log(ag);
-
-            setTimeout(function(){
-              fetch(data, {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                  productImage: update,
-                  age: ag,
-                  name: nam,
-                  email: emai
-                })
-              }).then((response)=>console.log("A"))
-              .catch(console.log);
-          }, 1000);
-
+            console.log(data);
+            fetch(data)
+            .then(response => response.json())
+            .then(data => {
+              console.log(data) // Prints result from `response.json()` in getRequest
+            })
+            .catch(error => console.error(error))
             block = <Result />
 
 
         }
-
-
-
         return (
-            <div className="signup-page">
 
+            <div className="signup-page">
                 <a href="/">
-                <img className="logo-nav" src="/images/logotext.png" />
+                    <img className="logo-nav" src="/images/logotext.png" />
                 </a>
                 {block}
                 {(this.state.page != 0 && this.state.page != 5) ?
