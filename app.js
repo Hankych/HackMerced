@@ -20,6 +20,12 @@ admin.initializeApp({
   databaseURL: "https://hackm-307513-default-rtdb.firebaseio.com"
 });
 
+//photo and audio
+// var storageRef = firebase.storage().ref();
+// var photo = storageRef.child('../assets/img/Taehyung.jpg');
+
+
+
 // Instancate OBJECTS
 var app = express();
 var sent = new Sent();

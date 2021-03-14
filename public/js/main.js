@@ -1,3 +1,15 @@
+function uploadRef() {
+  // [START storage_upload_ref]
+  // Create a root reference
+  var storageRef = firebase.storage().ref();
+
+  // Creates a photo reference for Image_Comparison
+  var photoRef = storageRef.child('mountains.jpg');
+
+  // Creates an audio reference for audio -> text
+  var audioRef = storageRef.child('images/mountains.jpg');
+}
+
 function setCookie(cname, cvalue) {
   var d = new Date();
   d.setTime(d.getTime() + 200000000);

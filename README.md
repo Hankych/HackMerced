@@ -4,4 +4,4 @@ The goal is to create a new solution to logging in. Uses:
   - The content of your words
   - Your Face
 
-In order to do some digital authentication! Would maybe help with passwords getting hacked and most definetly would help with remebering your passwords
+In order to do some digital authentication! Would maybe help with passwords getting hacked and most definitely would help with remembering your passwords
