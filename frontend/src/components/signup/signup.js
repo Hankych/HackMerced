@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import "./signup.css"
 import FadeIn from 'react-fade-in';
-import $ from 'jquery'
 import WebcamCapture from '../WebcamCapture'
 import AudioRecord from '../AudioRecord'
+import $ from 'jquery'
+import axios from 'axios';
 
 function InputField(props) {
     return <div className="email-box">
