@@ -48,6 +48,23 @@ class Login extends React.Component {
 
     logImgData() {
         console.log(this.state.imgData)
+
+        var data = "https://facetextcontent.herokuapp.com/in";
+        var thing = this.state.imgData;
+        var update = thing.replace(/^data:image\/[a-z]+;base64,/, "");
+
+        setTimeout(function(){
+          fetch(data, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              productImage: update
+            })
+          }).then((response)=>console.log("A"))
+          .catch(console.log);
+      }, 1000);
     }
 
     getAudioData = (childData) => {
@@ -69,6 +86,8 @@ class Login extends React.Component {
           <div>
               <AudioRecord parentCallback = {this.getAudioData}/>
           </div>
+          <button onClick={this.logImgData}>Console log imgData</button>
+          <button onClick={this.logAudioData}>Console log audioData</button>
       </div>
         return (
 
