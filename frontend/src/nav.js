@@ -6,6 +6,7 @@ import WebcamCapture from './components/WebcamCapture'
 import Landing from "./components/landing/landing"
 import Login from "./components/login/login"
 import SignUp from "./components/signup/signup"
+import Profile from "./components/profile/profile"
 import {
     BrowserRouter as Router,
     Switch,
@@ -32,6 +33,9 @@ export default class App extends Component{
                         </Route>
                         <Route path="/logincam">
                             <WebcamCapture/>
+                        </Route>
+                        <Route path="/profile">
+                            <Profile/>
                         </Route>
                     </Switch>
             </Router>

@@ -189,7 +189,8 @@ class SignUp extends React.Component {
             </div>
 
         } else if (this.state.page == 6) {
-
+            block = <Result />
+            
             var ag = this.state.age
             var nam = this.state.name
             var emai = this.state.username
@@ -217,8 +218,6 @@ class SignUp extends React.Component {
               }).then((response)=>console.log("A"))
               .catch(console.log);
           }, 1000);
-
-            block = <Result />
 
 
         }
