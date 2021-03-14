@@ -81,7 +81,7 @@ class SignUp extends React.Component {
             $('.text').css("transform", "translateY(-25px)")
             return;
         } else if (number == 5) {
-            this.makeUser();
+            //this.makeUser();
             await this.setState({ page: -1 })
             setTimeout(this.setState({ page: number }), 1000);
         }
@@ -210,7 +210,7 @@ class SignUp extends React.Component {
 
         return (
             <div className="signup-page">
-                                                         
+
                 <a href="/">
                 <img className="logo-nav" src="/images/logotext.png" />
                 </a>
