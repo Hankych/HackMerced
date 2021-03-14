@@ -178,6 +178,26 @@ module.exports = {
 
 
 
+    },
+
+    imgupload: async function (y, x, callback) {
+
+      Upload_photo(y, x,function(result2) {
+        callback(result2);
+      });
+
+
+
+    },
+
+    Byte_Compare: async function (x, callback) {
+
+      Compare_Byte(x,function(result2) {
+        callback(result2);
+      });
+
+
+
     }
   };
 
@@ -246,6 +266,43 @@ module.exports = {
 
       else{
         callback(data.FaceMatches)
+      }
+    });
+  }
+
+  async function Upload_photo(form, imageBytes, callback){
+    const params = {
+      Bucket: "facecompare12",
+      Key: form, // File name you want to save as in S3
+      Body: imageBytes,
+      ContentEncoding: 'base64',
+      ContentType: 'image/jpeg'
+    };
+    s3.upload(params, function(err, data) {
+      if (err) {
+        throw err;
+      }
+      callback(true);
+    });
+  }
+
+
+  async function Compare_Byte(imageBytes, callback){
+    var params = {
+      CollectionId: collectionName,
+      Image: {
+        Bytes: imageBytes
+      },
+      FaceMatchThreshold: 0,
+      MaxFaces: 1,
+    };
+    rek.searchFacesByImage(params, function(err, data) {
+      if (err){
+        console.log(err, err.stack);
+      }
+
+      else{
+        console.log(data.faceMatches);
       }
     });
   }

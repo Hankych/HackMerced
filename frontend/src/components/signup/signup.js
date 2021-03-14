@@ -120,7 +120,8 @@ class SignUp extends React.Component {
     }
 
     logImgData() {
-        console.log(this.state.imgData)
+      this.changePage(6);
+      console.log(this.state.imgData)
     }
 
     getAudioData = (childData) => {
@@ -151,9 +152,9 @@ class SignUp extends React.Component {
                 label="Enter your email" onClick={() => this.changePage(4)} onChange={this.updateUsername} value={this.state.username} />
         } else if (this.state.page == 4) {
             block = <InputField handleKeyPress={this.handleKeyPress}
-                label="Enter your age" onClick={() => this.changePage(5)} onChange={this.updateAge} value={this.state.Age} />
+                label="Enter your age" onClick={() => this.changePage(5)} onChange={this.updateAge} value={this.state.age} />
         } else if (this.state.page == 5) {
-         
+
             block = <div>
                 <div>
                     <WebcamCapture parentCallback = {this.getImgData}/>
@@ -165,20 +166,35 @@ class SignUp extends React.Component {
                 <button onClick={this.logAudioData}>Console log audioData</button>
             </div>
         } else if (this.state.page == 6) {
-            var data = "&age=" + this.state.age;
-            data += "&emoji=:)"
-            data += "&name=" + this.state.name;
-            data += "&imageurl=" + "RANDOM";
-            data += "&audiourl=" + "jeff+is+a+dancer";
-            data = "https://facetextcontent.herokuapp.com/create_user?" + data;
 
-            console.log(data);
-            fetch(data)
-            .then(response => response.json())
-            .then(data => {
-              console.log(data) // Prints result from `response.json()` in getRequest
-            })
-            .catch(error => console.error(error))
+            var ag = this.state.age
+            var nam = this.state.name
+            var emai = this.state.username
+
+            var data = "http://localhost:3000/ah";
+            var thing = this.state.imgData;
+            var update = thing.replace(/^data:image\/[a-z]+;base64,/, "");
+
+            console.log(emai);
+            console.log(nam);
+            console.log(ag);
+
+            setTimeout(function(){
+              fetch(data, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                  productImage: update,
+                  age: ag,
+                  name: nam,
+                  email: emai
+                })
+              }).then((response)=>console.log("A"))
+              .catch(console.log);
+          }, 1000);
+
             block = <Result />
 
 

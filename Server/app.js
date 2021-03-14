@@ -10,6 +10,7 @@ var natural = require('natural');
 var synonyms = require("synonyms");
 var cors = require("cors");
 var tools = require("./tools")
+var bodyParser = require('body-parser')
 // CONSTANTS AND API KEYS
 const PORT = process.env.PORT || 3000;
 const speech = require('@google-cloud/speech');
@@ -23,16 +24,68 @@ admin.initializeApp({
 
 // Instancate OBJECTS
 var app = express();
+
 var sent = new Sent();
 var server = require("http").createServer(app);
 var io = require("socket.io")(server);
-
+app.use(bodyParser.json({ limit: "5mb" }))
+app.use(bodyParser.urlencoded({ limit: "5mb", extended: false }))
 app.use(cors());
+
+app.use(function (req, res, next) {
+
+    // Website you wish to allow to connect
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3001/signup');
+
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    res.setHeader('Access-Control-Allow-Credentials', true);
+
+    // Pass to next layer of middleware
+    next();
+});
+
 app.use(express.static(__dirname + "/public"));
 
 // PAGE BUILDING STUFF
 app.get("/", function(req, res) {
 	res.sendFile(path.join(__dirname + "/index.html"));
+});
+
+/*
+tools.Local_Clear(function(){
+  tools.Byte_Compare(bytes, function(answer){
+    if (answer){
+      res.send(answer);
+    }else{
+      res.send(["No Match"])
+    }
+    console.log(answer);
+  })
+})
+*/
+app.post("/ah", function(req, res) {
+  bytes = new Buffer.from(req.body.productImage,'base64');
+
+  var age = req.body.age;
+  var name = req.body.name;
+  var email = req.body.email;
+  var title = name+age;
+
+  console.log(title)
+  tools.imgupload(title, bytes, function(answer){
+    console.log("ok")
+    add_User(title, age, email, name, "https://facecompare12.s3.ca-central-1.amazonaws.com/"+ title);
+  })
+
+
+  res.send(["yep"]);
 });
 app.get("/auth_test", function(req, res) {
 
@@ -64,24 +117,6 @@ app.get("/auth_test", function(req, res) {
 
 });
 
-app.get("/create_user", function(req, res) {
-
-	if (res){
-
-		age = res.req.query.age;
-		emoji = res.req.query.emoji;
-		name = res.req.query.name;
-		face = res.req.query.imageurl;
-		text = res.req.query.audiourl;
-
-    add_User(face, age, emoji, name, face, text)
-		res.send(["Created a New User"]);
-	}else{
-		console.log("No Beuno")
-		res.send(["Fail"]);
-	}
-
-});
 
 
 server.listen(PORT);
@@ -121,21 +156,13 @@ async function quickstart() {
 //  Which stores the references for comparions for later, note that
 //  the name of the parent is probs arbitrary... idk yet
 
-async function add_User(PName, age, emoji, name, face, text) {
-  console.log(PName);
-  console.log(age);
-  console.log(emoji);
-  console.log(name);
-  console.log(face);
-  console.log(text);
+async function add_User(PName, age, em, name, face) {
 
-	admin.database().ref(PName.split(".")[0]).set({
+	admin.database().ref(PName).set({
 		Name: name,
 		Age: age,
-		Emoji: emoji,
-		STT_Password: text,
+		Email: em,
 		Image_Comparison: face,
-		Voice_Copy: text
 	});
 }
 
@@ -176,6 +203,19 @@ async function Compare_To_User(FID,FirebaseUser, Image, Text, callback) {
     });
   });
 
+}
+
+
+function getBinary(base64Image) {
+  var binaryImg = atob(base64Image);
+  var length = binaryImg.length;
+  var ab = new ArrayBuffer(length);
+  var ua = new Uint8Array(ab);
+  for (var i = 0; i < length; i++) {
+    ua[i] = binaryImg.charCodeAt(i);
+  }
+
+  return ab;
 }
 
 //console.log(tools.Text_Closeness("Jeff is a good singer sometimes",

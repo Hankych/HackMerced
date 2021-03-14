@@ -6,6 +6,7 @@ export default class WebcamCapture extends Component{
 
     constructor(props){
         super(props);
+        console.log(props);
         this.state = { screenshot: null }
     }
     screenshot() {
@@ -28,8 +29,15 @@ export default class WebcamCapture extends Component{
 
     render(){
         return (
-            <div>   
-             <Webcam audio ={false} ref='webcam'/>
+            <div>
+            <Webcam
+               audio={false}
+               height={720}
+               ref={'webcam'}
+               screenshotFormat="image/jpeg"
+               width={1280}
+               screenshotQuality = {1}
+             />
              <button onClick={this.screenshot.bind(this)}>Capture</button>
              { this.state.screenshot ? <img src={this.state.screenshot} /> : null }
             </div>
