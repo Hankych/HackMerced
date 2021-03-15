@@ -194,3 +194,13 @@
   .end-title {
     margin-bottom: 1.5em !important;
 }
+
+.centered {
+    position: relative;
+    left: 30%;
+    top: 10%;
+    width: 30%;
+    height:40%;
+    font-family: 'Lato', sans-serif;
+    color:white;
+}

@@ -4,6 +4,7 @@ import SignUp from "../signup/signup"
 import FadeIn from 'react-fade-in';
 import WebcamCapture from '../WebcamCapture'
 import AudioRecord from '../AudioRecord'
+import { Redirect } from "react-router-dom"
 import Lottie from 'react-lottie';
 import * as animationData from '../animation.json';
 
@@ -32,14 +33,19 @@ class Login extends React.Component {
         super(props);
         this.state = {
             imgData: null,
-            audioData: null
+            audioData: null,
+            redirect:null
         }
         this.getImgData = this.getImgData.bind(this)
         this.logImgData = this.logImgData.bind(this)
         this.getAudioData = this.getAudioData.bind(this)
         this.logAudioData = this.logAudioData.bind(this)
+        this.onSubmit = this.onSubmit.bind(this)
     }
 
+    onSubmit = () => {
+        // return <a href="/login" className="goto-login-btn">Login here</a>
+    }
 
     getImgData = (childData) => {
         this.setState({imgData: childData})
@@ -54,7 +60,7 @@ class Login extends React.Component {
         var update = thing.replace(/^data:image\/[a-z]+;base64,/, "");
 
         setTimeout(function(){
-          fetch(data, {
+            fetch(data, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
@@ -62,7 +68,9 @@ class Login extends React.Component {
             body: JSON.stringify({
               productImage: update
             })
-          }).then((response)=>console.log("A"))
+          }).then((response)=>{
+            return <Redirect to={"/profile"}/>
+          })
           .catch(console.log);
       }, 1000);
     }
@@ -88,6 +96,7 @@ class Login extends React.Component {
           </div>
           <button onClick={this.logImgData}>Console log imgData</button>
           <button onClick={this.logAudioData}>Console log audioData</button>
+          <button onClick={this.onSubmit}>View Profile</button>
       </div>
         return (
 
